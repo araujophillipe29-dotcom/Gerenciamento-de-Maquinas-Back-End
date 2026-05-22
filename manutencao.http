@@ -1,0 +1,33 @@
+### Listar todas as maquinas
+GET http://localhost:3000/man
+Accept: application/json
+
+###
+
+POST http://localhost:3000/alunos
+Content-Type: application/json
+
+{
+  
+}
+
+###
+
+
+GET http://localhost:3000/man/1
+Accept: application/json
+
+
+
+
+PUT http://localhost:3000/alunos/14
+Content-Type: application/json
+
+{
+  
+}
+
+###
+
+
+DELETE http://localhost:3000/alunos/11
