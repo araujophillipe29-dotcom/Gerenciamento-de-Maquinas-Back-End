@@ -16,12 +16,13 @@ const pool = mysql.createPool({
 });
 
 pool.getConnection((err, connection) => {
-    if (err) {
-      console.error('Erro ao conectar ao banco de dados:', err.message);
-      return;
-    }
-    console.log('Conectado ao banco de dados MySQL!');
-    connection.release();
-  });
+  if (err) {
+    console.error('Erro ao conectar:', err);
+    return;
+  }
+
+  console.log('Conectado!');
+  connection.release();
+});
   
-  module.exports = pool;
+module.exports = pool;
