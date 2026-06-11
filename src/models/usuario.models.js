@@ -1,20 +1,20 @@
 const db = require('../config/db');
 
 exports.buscarTodosUsuarios = async () => {
-    const [rows] = await db.promise().query('SELECT * FROM manutencao_maquinas.usuario');
+    const [rows] = await db.promise().query('SELECT * FROM usuario');
     return rows;
 };
 
 exports.buscarIdUsuario = async (id_usuario) => {
     const [rows] = await db.promise().query(
-        'SELECT * FROM manutencao_maquinas.usuario WHERE id_usuario = ?', [id_usuario]
+        'SELECT * FROM usuario WHERE id_usuario = ?', [id_usuario]
     );
     return rows[0];
 };
 
 exports.criarUsuario = async ({ nome_usuario, email, senha, tipo}) => {
     const [result] = await db.promise().query(
-        'INSERT INTO manutencao_maquinas.usuario (nome_usuario, email, senha, tipo) VALUES (?, ?, ?, ?)',
+        'INSERT INTO usuario (nome_usuario, email, senha, tipo) VALUES (?, ?, ?, ?)',
         [nome_usuario, email, senha, tipo]
     );
     return result.insertId;
@@ -22,14 +22,14 @@ exports.criarUsuario = async ({ nome_usuario, email, senha, tipo}) => {
 
 exports.atualizarUsuario = async (id_usuario, { nome_usuario, email, tipo, senha }) => {
     await db.promise().query(
-        'UPDATE manutencao_maquinas.usuario SET nome_usuario = ?, email = ?, tipo = ?, senha = ? WHERE id_usuario = ?',
+        'UPDATE usuario SET nome_usuario = ?, email = ?, tipo = ?, senha = ? WHERE id_usuario = ?',
         [nome_usuario, email, tipo, senha, id_usuario]
     );
 };
 
 exports.deletarUsuario = async (id) => {
     await db.promise().query(
-        'DELETE FROM manutencao_maquinas.usuario WHERE id_usuario = ?', [id]
+        'DELETE FROM usuario WHERE id_usuario = ?', [id]
     );
 };
 
