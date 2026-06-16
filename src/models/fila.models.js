@@ -117,18 +117,32 @@ exports.iniciar = async (id_fila, id_tecnico) => {
 
 // Finalizar Manutenção
 exports.finalizarManutencao = async (id_fila, relato, dias, tipo) => {
-    // Calcula a data prevista: Hoje + quantidade de dias
+    // Forçar a conversão para garantir que números sejam números e não strings
+    const idFilaNum = parseInt(id_fila, 10);
+    const diasNum = parseInt(dias, 10);
+
+    if (isNaN(idFilaNum) || isNaN(diasNum)) {
+        throw new Error("ID da fila ou quantidade de dias inválidos.");
+    }
+
     const query = `
-        UPDATE fila SET 
-            status = 'finalizado', 
-            manutencoes_realizadas = ?, 
-            data_conclusao = NOW(),
+        UPDATE fila
+        SET 
+            status = 'finalizado',
+            data_finalizacao = NOW(),
+            relato_tecnico = ?,
             proxima_manutencao_dias = ?,
             proxima_manutencao_tipo = ?,
             data_prevista_proxima = DATE_ADD(CURDATE(), INTERVAL ? DAY)
         WHERE id_fila = ?`;
 
-    await db.promise().query(query, [relato, dias, tipo, dias, id_fila]);
+    await db.promise().query(query, [
+        relato, 
+        diasNum, 
+        tipo, 
+        diasNum, 
+        idFilaNum
+    ]);
 };
 
 exports.listarProximasManutencoes = async () => {
