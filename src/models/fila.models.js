@@ -33,20 +33,26 @@ exports.abrirSolicitacao = async (dados) => {
         ]
     );
 
-    // Remove a manutenção pendente da máquina
-    await db.promise().query(
-        `
-        UPDATE fila
-        SET 
-            data_prevista_proxima = NULL,
-            proxima_manutencao_tipo = NULL,
-            proxima_manutencao_dias = NULL
-        WHERE id_maquina = ?
-        AND status = 'finalizado'
-        `,
-        [id_maquina]
-    );
+    // Tenta remover a manutenção pendente de forma segura
+    try {
+        await db.promise().query(
+            `
+            UPDATE fila
+            SET 
+                data_prevista_proxima = NULL,
+                proxima_manutencao_tipo = NULL,
+                proxima_manutencao_dias = NULL
+            WHERE id_maquina = ?
+            AND status = 'finalizado'
+            `,
+            [id_maquina]
+        );
+    } catch (updateError) {
+        // Se falhar aqui, o erro é registrado no terminal, mas não quebra a requisição do usuário
+        console.error("Aviso: Falha ao limpar prazos de manutenção anteriores:", updateError.message);
+    }
 
+    // Retorna o ID normalmente
     return result.insertId;
 };
 

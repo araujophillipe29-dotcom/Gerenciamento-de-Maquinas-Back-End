@@ -29,7 +29,6 @@ exports.listarProximas = async (req, res, next) => {
         next(err);
     }
 };
-
 exports.buscarConcluidas = async (req, res) => {
     try {
         const dados = await model.listarConcluidas();
