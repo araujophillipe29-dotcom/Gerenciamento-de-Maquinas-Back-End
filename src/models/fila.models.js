@@ -129,7 +129,7 @@ exports.finalizarManutencao = async (id_fila, relato, dias, tipo) => {
         UPDATE fila
         SET 
             status = 'finalizado',
-            data_finalizacao = NOW(),
+            data_conclusao = NOW(),
             relato_tecnico = ?,
             proxima_manutencao_dias = ?,
             proxima_manutencao_tipo = ?,
