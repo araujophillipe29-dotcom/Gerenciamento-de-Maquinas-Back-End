@@ -73,6 +73,7 @@ exports.concluir = async (req, res, next) => {
     }
 };
 
+
 exports.assumirChamado = async (req, res, next) => {
     try {
         const { id_fila, id_tecnico } = req.body;
